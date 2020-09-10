@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { APP_STATE_INITIALIZING } from './constants';
+import { getDeviceState, postResetDevice, postSetPeriod, postSetEndTime } from './requests';
 
-function App() {
+const App = () => {
+  //TODO incorporate whole state object from server
+  const [state, setState] = useState(APP_STATE_INITIALIZING);
+  useEffect(() => {
+    const deviceState = getDeviceState();
+    setState(getDeviceState());
+    // postResetDevice();
+    // postSetPeriod(1000);
+    // postSetEndTime(1599782964);
+  });
   return (
     <div className="App">
       <header className="App-header">

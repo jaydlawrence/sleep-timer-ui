@@ -11,6 +11,9 @@
 # production
 /build
 
+# secret
+/src/password.json
+
 # misc
 .DS_Store
 .env.local
