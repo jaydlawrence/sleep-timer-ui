@@ -20,7 +20,7 @@ const checkGetAndSetAccessToken = async () => {
     var config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic cGFydGljbGU6cGFydGljbGU='
+            'Authorization': 'Basic cGFydGljbGU6cGFydGljbGU=' // This is the fake dev header "particle:particle"
         }
     };
 
