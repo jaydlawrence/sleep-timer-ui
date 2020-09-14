@@ -1,6 +1,6 @@
 import moment from 'moment';
 // constants
-import { APP_STATE_READY, APP_STATE_TIMING, URL_STUB_READY, URL_STUB_TIMING, URL_STUB_INITIALIZING } from './constants';
+import { APP_STATE_READY, APP_STATE_TIMING, URL_STUB_READY, URL_STUB_TIMING, URL_STUB_INITIALIZING, APP_STATE_DONE, URL_STUB_DONE } from './constants';
 
 export const formatTimeToFriendly = date => {
   let day = date.format('dddd');
@@ -43,6 +43,9 @@ export const pushToCorrectPageOnLoad = (state, history) => {
       break;
     case APP_STATE_TIMING:
       history.push(URL_STUB_TIMING);
+      break;
+    case APP_STATE_DONE:
+      history.push(URL_STUB_DONE);
       break;
     default:
       history.push(URL_STUB_INITIALIZING);

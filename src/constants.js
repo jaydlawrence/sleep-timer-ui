@@ -8,4 +8,5 @@ export const APP_STATE_TYPES = [APP_STATE_INITIALIZING, APP_STATE_READY, APP_STA
 
 export const URL_STUB_READY = '/ready';
 export const URL_STUB_TIMING = '/timing';
+export const URL_STUB_DONE = '/done';
 export const URL_STUB_INITIALIZING = '/';

@@ -30,7 +30,7 @@ export const NapFor = ({ getAndUpdateState }) => {
       () => setCurrentTime(moment()),
       15000 // 15 seconds, to keep the displayed date relatively up to date
     );
-    return () => clearInterval();
+    return () => clearInterval(interval);
   }, []);
 
   const inputContainerStyles = {

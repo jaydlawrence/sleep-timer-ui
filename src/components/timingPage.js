@@ -21,7 +21,7 @@ export const TimingPage = ({ appState, getAndUpdateState }) => {
       },
       300000 // 300 seconds, to keep in contact with device
     );
-    return () => clearInterval();
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export const TimingPage = ({ appState, getAndUpdateState }) => {
       },
       15000 // 15 seconds, to keep the count down relatively up to date
     );
-    return () => clearInterval();
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export const TimingPage = ({ appState, getAndUpdateState }) => {
       },
       secondsLeft * 1000 + 1000 // wait until 1 second after the end time to get the status returned to be done
     );
-    return () => clearInterval();
+    return () => clearInterval(interval);
   }, [endTime]);
 
   return (
