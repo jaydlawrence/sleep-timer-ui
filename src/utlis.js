@@ -1,6 +1,16 @@
 import moment from 'moment';
 // constants
-import { APP_STATE_READY, APP_STATE_TIMING, URL_STUB_READY, URL_STUB_TIMING, URL_STUB_INITIALIZING, APP_STATE_DONE, URL_STUB_DONE } from './constants';
+import {
+  APP_STATE_READY,
+  APP_STATE_TIMING,
+  URL_STUB_READY,
+  URL_STUB_TIMING,
+  URL_STUB_INITIALIZING,
+  APP_STATE_DONE,
+  URL_STUB_DONE,
+  APP_STATE_ERROR,
+  URL_STUB_ERROR
+} from './constants';
 
 export const formatTimeToFriendly = date => {
   let day = date.format('dddd');
@@ -30,8 +40,10 @@ export const formatTimeDiff = (time1, time2) => {
   const diff = time1.diff(time2);
   const duration = moment.duration(diff);
   const parts = [];
-  if (duration.hours()) parts.push(`${duration.hours()} hours`);
-  if (duration.minutes()) parts.push(`${duration.minutes()} minutes`);
+  const pluralHours = duration.hours() == 1 ? 'hour' : 'hours'
+  if (duration.hours()) parts.push(`${duration.hours()} ${pluralHours}`);
+  const pluralMinutes = duration.minutes() == 1 ? 'minute' : 'minutes'
+  if (duration.minutes()) parts.push(`${duration.minutes()} ${pluralMinutes}`);
   const joined = parts.join(' and ');
   return joined || 'less than a minute'
 }
@@ -46,6 +58,9 @@ export const pushToCorrectPageOnLoad = (state, history) => {
       break;
     case APP_STATE_DONE:
       history.push(URL_STUB_DONE);
+      break;
+    case APP_STATE_ERROR:
+      history.push(URL_STUB_ERROR);
       break;
     default:
       history.push(URL_STUB_INITIALIZING);

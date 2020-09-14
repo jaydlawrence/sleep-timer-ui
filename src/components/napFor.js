@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { InputLabel, Select, MenuItem, FormControl, CircularProgress } from '@material-ui/core';
 // requests
 import { postSetPeriod } from '../requests';
-import { URL_STUB_INITIALIZING } from '../constants';
+import { URL_STUB_INITIALIZING, HTTP_ERROR_MESSAGE } from '../constants';
 
 export const NapFor = ({ getAndUpdateState }) => {
   const [hours, setHours] = useState(0);
@@ -26,11 +26,11 @@ export const NapFor = ({ getAndUpdateState }) => {
   }, [hours, minutes]);
 
   useEffect(() => {
-    const interval = setInterval(
+    const interval1 = setInterval(
       () => setCurrentTime(moment()),
       15000 // 15 seconds, to keep the displayed date relatively up to date
     );
-    return () => clearInterval(interval);
+    return () => clearInterval(interval1);
   }, []);
 
   const inputContainerStyles = {
@@ -46,7 +46,7 @@ export const NapFor = ({ getAndUpdateState }) => {
     const result = await postSetPeriod(period);
     await getAndUpdateState();
     setIsLoading(false);
-    if (result.error) setError('There was a problem with contacting the device, please try again.');
+    if (result.error) setError(HTTP_ERROR_MESSAGE);
   }
 
   return (

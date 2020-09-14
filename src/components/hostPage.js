@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 // constants
-import { APP_STATE_INITIALIZING, URL_STUB_READY, URL_STUB_TIMING, URL_STUB_INITIALIZING, URL_STUB_DONE } from '../constants';
+import { APP_STATE_INITIALIZING, URL_STUB_READY, URL_STUB_TIMING, URL_STUB_INITIALIZING, URL_STUB_DONE, URL_STUB_ERROR } from '../constants';
 // API calls
 import { getDeviceState, postResetDevice, postSetPeriod, postSetEndTime } from '../requests';
 // components
@@ -17,11 +17,11 @@ import {
 import { pushToCorrectPageOnLoad } from '../utlis';
 import { TimingPage } from './timingPage';
 import { DonePage } from './donePage';
+import { ErrorPage } from './errorPage';
 
 
 export const HostPage = () => {
   const history = useHistory();
-  //TODO incorporate whole state object from server
   const [appState, setAppState] = useState({ state: APP_STATE_INITIALIZING });
 
   const getAndUpdateState = async () => {
@@ -76,6 +76,9 @@ export const HostPage = () => {
           </Route>
           <Route path={URL_STUB_DONE}>
             <DonePage appState={appState} getAndUpdateState={getAndUpdateState} />
+          </Route>
+          <Route path={URL_STUB_ERROR}>
+            <ErrorPage appState={appState} getAndUpdateState={getAndUpdateState} />
           </Route>
           <Route path={URL_STUB_INITIALIZING}>
             <InitializingPage appState={appState} getAndUpdateState={getAndUpdateState} />

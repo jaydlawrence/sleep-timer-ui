@@ -1,6 +1,7 @@
 import { username, password } from './password.json';
 import qs from 'query-string';
 import axios from 'axios';
+import { APP_STATE_ERROR } from './constants';
 
 const BASE_URL = 'https://api.particle.io/';
 const AUTH_URL = `${BASE_URL}oauth/token`;
@@ -41,7 +42,7 @@ export const getDeviceState = async () => {
     // cleared storedAccessToken if it is old
     if (err.response.status === 401) storedAccessToken = '';
     console.error("getDeviceState -> err", err)
-    // TODO handle errors
+    return { error: err, state: APP_STATE_ERROR };
   }
 }
 
@@ -49,11 +50,12 @@ export const postResetDevice = async () => {
   await checkGetAndSetAccessToken();
   try {
     const response = await axios.post(`${API_URL}reset?access_token=${storedAccessToken}`);
+    return response;
   } catch (err) {
     // cleared storedAccessToken if it is old
     if (err.response.status === 401) storedAccessToken = '';
-    console.error("getDeviceState -> err", err)
-    // TODO handle errors
+    console.error("getDeviceState -> err", err);
+    return { error: err };
   }
 }
 
@@ -69,7 +71,6 @@ export const postSetPeriod = async period => {
     // cleared storedAccessToken if it is old
     if (err.response.status === 401) storedAccessToken = '';
     console.error("getDeviceState -> err", err)
-    // TODO handle errors
     return { error: err }
   }
 }
@@ -81,10 +82,24 @@ export const postSetEndTime = async time => {
       'arg': time
     });
     const response = await axios.post(`${API_URL}setEnd?access_token=${storedAccessToken}`, data);
+    return response
   } catch (err) {
     // cleared storedAccessToken if it is old
     if (err.response.status === 401) storedAccessToken = '';
     console.error("getDeviceState -> err", err)
-    // TODO handle errors
+    return { error: err }
+  }
+}
+
+export const postSetWakeNow = async () => {
+  await checkGetAndSetAccessToken();
+  try {
+    const response = await axios.post(`${API_URL}setWakeNow?access_token=${storedAccessToken}`);
+    return response
+  } catch (err) {
+    // cleared storedAccessToken if it is old
+    if (err.response.status === 401) storedAccessToken = '';
+    console.error("getDeviceState -> err", err)
+    return { error: err }
   }
 }

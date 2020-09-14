@@ -4,7 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { jsx } from '@emotion/core';
 import moment from 'moment';
 import { formatTimeToFriendly, formatTimeDiff } from '../utlis';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, CircularProgress } from '@material-ui/core';
+import { MarginedButton } from './marginedButton';
+import { postSetWakeNow, postResetDevice, postSetEndTime } from '../requests';
+import { HTTP_ERROR_MESSAGE } from '../constants';
 
 export const TimingPage = ({ appState, getAndUpdateState }) => {
   const { endTime, startTime } = appState;
@@ -13,47 +16,101 @@ export const TimingPage = ({ appState, getAndUpdateState }) => {
   const [currentTime, setCurrentTime] = useState(moment());
   const percentageComplete = currentTime.diff(momentedStartTime, 'seconds') * 100 / momentedEndTime.diff(momentedStartTime, 'seconds');
 
+  const [isWakeNowLoading, setIsWakeNowLoading] = useState(false);
+  const [isResetLoading, setIsResetLoading] = useState(false);
+  const [error, setError] = useState();
 
   useEffect(() => {
-    const interval = setInterval(
+    const interval1 = setInterval(
       () => {
         getAndUpdateState();
       },
       300000 // 300 seconds, to keep in contact with device
     );
-    return () => clearInterval(interval);
+    return () => clearInterval(interval1);
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(
+    const interval2 = setInterval(
       () => {
         setCurrentTime(moment());
       },
-      15000 // 15 seconds, to keep the count down relatively up to date
+      5000 // 5 seconds, to keep the count down relatively up to date
     );
-    return () => clearInterval(interval);
+    return () => clearInterval(interval2);
   }, []);
 
   useEffect(() => {
     const secondsLeft = momentedEndTime.diff(moment(), 'seconds');
-    const interval = setInterval(
+    const interval3 = setInterval(
       () => {
         setCurrentTime(moment());
         getAndUpdateState();
       },
-      secondsLeft * 1000 + 1000 // wait until 1 second after the end time to get the status returned to be done
+      // TODO, is there a better way to do this?
+      secondsLeft * 1000 + 5000 // wait a few second after the end time to get the status returned to be done
     );
-    return () => clearInterval(interval);
+    return () => {
+      'clearing interval3'
+      clearInterval(interval3);
+    }
   }, [endTime]);
+
+  const wakeNow = async () => {
+    setIsWakeNowLoading(true);
+    const result = await postSetWakeNow();
+    await getAndUpdateState();
+    setIsWakeNowLoading(false);
+    if (result.error) setError(HTTP_ERROR_MESSAGE);
+  }
+
+  const reset = async () => {
+    setIsResetLoading(true);
+    const result = await postResetDevice();
+    await getAndUpdateState();
+    setIsResetLoading(false);
+    if (result.error) setError(HTTP_ERROR_MESSAGE);
+  }
 
   return (
     <>
       <div css={{ width: '100%' }}>
         <LinearProgress variant="determinate" value={percentageComplete} />
       </div>
+      <p css={{ color: 'red' }}>{error}</p>
       <p>
         {`Wake up time will be in ${formatTimeDiff(momentedEndTime, currentTime)} at ${formatTimeToFriendly(momentedEndTime)}`}
       </p>
+      {
+        !isWakeNowLoading &&
+        <MarginedButton
+          variant="contained"
+          onClick={wakeNow}
+        >
+          Wake Now
+        </MarginedButton>
+      }
+      {
+        isWakeNowLoading &&
+        <div css={{ margin: '21px 0' }}>
+          <CircularProgress />
+        </div>
+      }
+      {
+        !isResetLoading &&
+        <MarginedButton
+          variant="contained"
+          onClick={reset}
+        >
+          Reset
+        </MarginedButton>
+      }
+      {
+        isResetLoading &&
+        <div css={{ margin: '21px 0' }}>
+          <CircularProgress />
+        </div>
+      }
     </>
   )
 }
