@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 // constants
-import { APP_STATE_INITIALIZING, URL_STUB_READY, URL_STUB_TIMING, URL_STUB_INITIALIZING, URL_STUB_DONE, URL_STUB_ERROR } from '../constants';
+import { APP_STATE_INITIALIZING, URL_STUB_READY, URL_STUB_TIMING, URL_STUB_INITIALIZING, URL_STUB_DONE, URL_STUB_ERROR, APP_STATE_TIMING, APP_STATE_DONE, APP_STATE_READY, APP_STATE_ERROR } from '../constants';
 // API calls
 import { getDeviceState, postResetDevice, postSetPeriod, postSetEndTime } from '../requests';
 // components
@@ -38,6 +38,29 @@ export const HostPage = () => {
     pushToCorrectPageOnLoad(appState.state, history);
   }, [appState.state]);
 
+  const backgroundStyles = {
+    textAlign: 'center',
+    height: '100vh',
+    width: '100%',
+    overflow: 'hidden',
+    position: 'fixed',
+    ...(appState.state === APP_STATE_INITIALIZING && {
+      background: 'linear-gradient(#e3ac59, #619cc9 30%)'
+    }),
+    ...(appState.state === APP_STATE_READY && {
+      background: 'linear-gradient(#e3ac59, #619cc9 30%)'
+    }),
+    ...(appState.state === APP_STATE_TIMING && {
+      background: 'linear-gradient(#188cba, #3f4496 30%)'
+    }),
+    ...(appState.state === APP_STATE_DONE && {
+      background: 'linear-gradient(#f9ff82, #82fdff 30%)'
+    }),
+    ...(appState.state === APP_STATE_ERROR && {
+      background: 'linear-gradient(#cc2f2f, #fc9090 30%)'
+    })
+  }
+
   const appHeaderStyles = {
     // backgroundColor: '#282c34',
     minHeight: '20vh',
@@ -48,7 +71,7 @@ export const HostPage = () => {
     fontSize: 'calc(10px + 2vmin)',
     color: 'black'
   }
-  const appBodyStyles = {
+  const appContentStyles = {
     // backgroundColor: '#282c34',
     minHeight: '30vh',
     display: 'flex',
@@ -60,13 +83,13 @@ export const HostPage = () => {
   }
 
   return (
-    <div css={{ textAlign: 'center' }}>
+    <div css={backgroundStyles} >
       <header css={appHeaderStyles}>
         <h2>
           Sleep Timer
         </h2>
       </header>
-      <div css={appBodyStyles}>
+      <div css={appContentStyles}>
         <Switch>
           <Route path={URL_STUB_READY}>
             <ReadyPage appState={appState} getAndUpdateState={getAndUpdateState} />

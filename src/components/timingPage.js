@@ -8,6 +8,7 @@ import { LinearProgress, CircularProgress } from '@material-ui/core';
 import { MarginedButton } from './marginedButton';
 import { postSetWakeNow, postResetDevice, postSetEndTime } from '../requests';
 import { HTTP_ERROR_MESSAGE } from '../constants';
+import { Moon } from './moon';
 
 export const TimingPage = ({ appState, getAndUpdateState }) => {
   const { endTime, startTime } = appState;
@@ -74,43 +75,55 @@ export const TimingPage = ({ appState, getAndUpdateState }) => {
 
   return (
     <>
-      <div css={{ width: '100%' }}>
-        <LinearProgress variant="determinate" value={percentageComplete} />
+      <div css={{ zIndex: 100 }}>
+        <div css={{ width: '100%' }}>
+          <LinearProgress variant="determinate" value={percentageComplete} />
+        </div>
+        <p css={{ color: 'red' }}>{error}</p>
+        <p>
+          {`Wake up time will be in ${formatTimeDiff(momentedEndTime, currentTime)} at ${formatTimeToFriendly(momentedEndTime)}`}
+        </p>
+        {
+          !isWakeNowLoading &&
+          <MarginedButton
+            variant="contained"
+            onClick={wakeNow}
+          >
+            Wake Now
+        </MarginedButton>
+        }
+        {
+          isWakeNowLoading &&
+          <div css={{ margin: '21px 0' }}>
+            <CircularProgress />
+          </div>
+        }
+        {
+          !isResetLoading &&
+          <MarginedButton
+            variant="contained"
+            onClick={reset}
+          >
+            Reset
+        </MarginedButton>
+        }
+        {
+          isResetLoading &&
+          <div css={{ margin: '21px 0' }}>
+            <CircularProgress />
+          </div>
+        }
       </div>
-      <p css={{ color: 'red' }}>{error}</p>
-      <p>
-        {`Wake up time will be in ${formatTimeDiff(momentedEndTime, currentTime)} at ${formatTimeToFriendly(momentedEndTime)}`}
-      </p>
-      {
-        !isWakeNowLoading &&
-        <MarginedButton
-          variant="contained"
-          onClick={wakeNow}
-        >
-          Wake Now
-        </MarginedButton>
-      }
-      {
-        isWakeNowLoading &&
-        <div css={{ margin: '21px 0' }}>
-          <CircularProgress />
-        </div>
-      }
-      {
-        !isResetLoading &&
-        <MarginedButton
-          variant="contained"
-          onClick={reset}
-        >
-          Reset
-        </MarginedButton>
-      }
-      {
-        isResetLoading &&
-        <div css={{ margin: '21px 0' }}>
-          <CircularProgress />
-        </div>
-      }
+      <div css={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1
+      }}>
+        <Moon />
+      </div>
+
     </>
   )
 }

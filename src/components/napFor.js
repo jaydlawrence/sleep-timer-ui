@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { InputLabel, Select, MenuItem, FormControl, CircularProgress } from '@material-ui/core';
 // requests
 import { postSetPeriod } from '../requests';
-import { URL_STUB_INITIALIZING, HTTP_ERROR_MESSAGE } from '../constants';
+import { HTTP_ERROR_MESSAGE, URL_STUB_READY } from '../constants';
 
 export const NapFor = ({ getAndUpdateState }) => {
   const [hours, setHours] = useState(0);
@@ -120,7 +120,7 @@ export const NapFor = ({ getAndUpdateState }) => {
           <CircularProgress />
         </div>
       }
-      <Link style={{ textDecoration: 'none' }} to={URL_STUB_INITIALIZING}>
+      <Link style={{ textDecoration: 'none' }} to={URL_STUB_READY}>
         <MarginedButton variant="contained">Back</MarginedButton>
       </Link>
     </>

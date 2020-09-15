@@ -8,6 +8,7 @@ import { postResetDevice } from '../requests';
 import { MarginedButton } from './marginedButton';
 import { CircularProgress } from '@material-ui/core';
 import { HTTP_ERROR_MESSAGE } from '../constants';
+import { Sun } from './sun';
 
 export const DonePage = ({ appState, getAndUpdateState }) => {
   const { endTime } = appState;
@@ -46,25 +47,36 @@ export const DonePage = ({ appState, getAndUpdateState }) => {
 
   return (
     <>
-      <p css={{ color: 'red' }}>{error}</p>
-      <p>
-        {`Wake time was ${formatTimeDiff(currentTime, momentedEndTime)} ago at ${formatTimeToFriendly(momentedEndTime)}`}
-      </p>
-      {
-        !isResetLoading &&
-        <MarginedButton
-          variant="contained"
-          onClick={reset}
-        >
-          Reset
+      <div css={{ zIndex: 100 }}>
+        <p css={{ color: 'red' }}>{error}</p>
+        <p>
+          {`Wake time was ${formatTimeDiff(currentTime, momentedEndTime)} ago at ${formatTimeToFriendly(momentedEndTime)}`}
+        </p>
+        {
+          !isResetLoading &&
+          <MarginedButton
+            variant="contained"
+            onClick={reset}
+          >
+            Reset
         </MarginedButton>
-      }
-      {
-        isResetLoading &&
-        <div css={{ margin: '21px 0' }}>
-          <CircularProgress />
-        </div>
-      }
+        }
+        {
+          isResetLoading &&
+          <div css={{ margin: '21px 0' }}>
+            <CircularProgress />
+          </div>
+        }
+      </div>
+      <div css={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1
+      }}>
+        <Sun />
+      </div>
     </>
   )
 }
