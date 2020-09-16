@@ -1,23 +1,44 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Sleep Timer UI
 
-## Available Scripts
+This is the UI part of the sleep timer app.
 
-In the project directory, you can run:
+It is built on ReactJs and was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### `npm start`
+## Running the project
 
-Runs the app in the development mode.<br />
+This project is built to work with the [sleep timer backend app](https://github.com/jaydlawrence/sleep-timer) running on a [particle](https://www.particle.io/) board.
+
+### Particle-io credentials
+
+To run the project, duplicate the `src/password.template.json` file and rename it `password.json` and add your username and password to this file.
+This file is ignored by git.
+DO NOT commit this file to git as the details are confidential.
+
+### Install and run app
+
+Install the dependencies with:
+
+```
+npm install
+```
+
+Then to run the project:
+
+```
+npm run start
+```
+
+This runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
+### Statically compile app
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
+```
+npm run build
+```
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -27,42 +48,37 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## App walkthrough
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The app state is driven off of the state of the connected [particle](https://www.particle.io/) device.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+When the app loads, it contacts the server and then goes to the relevant page with actions that make sense in that state.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Ready State
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+When the device is in the ready state, the app will show the ready state page with options to sleep until a particular time or nap for a given amount of time.
 
-## Learn More
+![Ready State](https://github.com/jaydlawrence/sleep-timer-ui/blob/master/public/media/ready.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+If a user selects to sleep until a certain time, they get a follow up screen, allowing them to select a time to sleep until.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Sleep Until Page](https://github.com/jaydlawrence/sleep-timer-ui/blob/master/public/media/sleep.png)
 
-### Code Splitting
+If the user selected the nap for option, they will get a screen allowing them to set hours and/or minutes to nap for.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+![Nap Until Page](https://github.com/jaydlawrence/sleep-timer-ui/blob/master/public/media/nap.png)
 
-### Analyzing the Bundle Size
+### Timing State
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+When the device is in the timing state, the app will show the timing state page with a progress bar and a description of the remaining time and the time at which the device will stop timing.
+It also displays options to wake now or to clear the timer.
 
-### Making a Progressive Web App
+![Timing State](https://github.com/jaydlawrence/sleep-timer-ui/blob/master/public/media/timing.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### Done State
 
-### Advanced Configuration
+When the device is in the done state, the app will show the done state page with a description of when the device stopped timing.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+It also displays option to clear the timer.
 
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+![Done State](https://github.com/jaydlawrence/sleep-timer-ui/blob/master/public/media/done.png)
