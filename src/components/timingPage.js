@@ -19,6 +19,7 @@ export const TimingPage = ({ appState, getAndUpdateState }) => {
 
   const [isWakeNowLoading, setIsWakeNowLoading] = useState(false);
   const [isResetLoading, setIsResetLoading] = useState(false);
+  const [isGetStateLoading, setIsGetStateLoading] = useState(false);
   const [error, setError] = useState();
 
   useEffect(() => {
@@ -33,29 +34,19 @@ export const TimingPage = ({ appState, getAndUpdateState }) => {
 
   useEffect(() => {
     const interval2 = setInterval(
-      () => {
+      async () => {
+        const now = moment();
         setCurrentTime(moment());
+        if (now.diff(momentedEndTime) > 0 && !isGetStateLoading) {
+          setIsGetStateLoading(true);
+          await getAndUpdateState();
+          setIsGetStateLoading(false);
+        }
       },
-      5000 // 5 seconds, to keep the count down relatively up to date
+      1000 // 1 second, to keep the count down relatively up to date
     );
     return () => clearInterval(interval2);
   }, []);
-
-  useEffect(() => {
-    const secondsLeft = momentedEndTime.diff(moment(), 'seconds');
-    const interval3 = setInterval(
-      () => {
-        setCurrentTime(moment());
-        getAndUpdateState();
-      },
-      // TODO, is there a better way to do this?
-      secondsLeft * 1000 + 5000 // wait a few second after the end time to get the status returned to be done
-    );
-    return () => {
-      'clearing interval3'
-      clearInterval(interval3);
-    }
-  }, [endTime]);
 
   const wakeNow = async () => {
     setIsWakeNowLoading(true);
