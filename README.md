@@ -82,3 +82,8 @@ When the device is in the done state, the app will show the done state page with
 It also displays option to clear the timer.
 
 ![Done State](https://github.com/jaydlawrence/sleep-timer-ui/blob/master/public/media/done.png)
+
+
+## In action
+
+See it in action in my [blog post](https://jaydlawrence.dev/sleep-timer-iot-sleep-training-app/)
