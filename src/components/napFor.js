@@ -14,7 +14,7 @@ import { postSetPeriod } from '../requests';
 import { HTTP_ERROR_MESSAGE, URL_STUB_READY } from '../constants';
 
 export const NapFor = ({ getAndUpdateState }) => {
-  const [hours, setHours] = useState(0);
+  const [hours, setHours] = useState(1);
   const [minutes, setMinutes] = useState(0);
   const [period, setPeriod] = useState(0);
   const [currentTime, setCurrentTime] = useState(moment());
@@ -55,6 +55,7 @@ export const NapFor = ({ getAndUpdateState }) => {
         <FormControl style={inputStyles}>
           <InputLabel id="hours-select-label">Hours</InputLabel>
           <Select
+            value={hours}
             labelId="hours-select-label"
             onChange={element => setHours(element?.target?.value)}
           >

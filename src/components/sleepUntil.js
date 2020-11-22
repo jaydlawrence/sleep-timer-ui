@@ -17,7 +17,11 @@ import { postSetEndTime } from '../requests';
 import { CircularProgress } from '@material-ui/core';
 
 export const SleepUntil = ({ getAndUpdateState }) => {
-  const [time, setTime] = useState(moment().add(1, 'hour'));
+  const initialTime = moment();
+  initialTime.set('hour', 7);
+  initialTime.set('minute', 0);
+  initialTime.set('second', 0);
+  const [time, setTime] = useState(initialTime.add(1, 'day'));
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
