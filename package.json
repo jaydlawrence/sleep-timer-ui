@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^2.4.7",
+    "@capacitor/core": "^2.4.7",
     "@date-io/moment": "1",
     "@emotion/core": "^10.0.35",
     "@material-ui/core": "^4.11.0",
@@ -40,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "@capacitor/cli": "2.4.7",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
     "eslint-config-airbnb": "^18.2.0",

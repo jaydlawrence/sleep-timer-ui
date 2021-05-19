@@ -1,0 +1,7 @@
+{
+  "name": "sleep-timer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
