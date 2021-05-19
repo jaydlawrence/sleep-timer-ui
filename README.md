@@ -83,7 +83,39 @@ It also displays option to clear the timer.
 
 ![Done State](https://github.com/jaydlawrence/sleep-timer-ui/blob/master/public/media/done.png)
 
-
 ## In action
 
 See it in action in my [blog post](https://jaydlawrence.dev/sleep-timer-iot-sleep-training-app/)
+
+## Compiling for mobile.
+
+This project uses Ionic and Capacitor to compile the react app for mobile.
+
+### Android
+
+To make an android version use the following commands:
+
+```
+ionic build
+ionic capacitor add android
+```
+
+Whenever changes are made to the project, copy those over with:
+
+```
+ionic capacitor copy android --prod
+```
+
+Android studio didn't want to work when I first tried this, so I compiled the android apk with the following command.
+
+```
+cd android
+./gradlew assembleRelease
+```
+
+To make it installable, it will need to be signed.
+I made a self signed cert and then signed it with a command like this:
+
+```
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore mycustomname.keystore app/build/outputs/apk/release/app-release-unsigned.apk mycustom_alias
+```
